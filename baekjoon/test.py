@@ -1,4 +1,4 @@
-n = [1,2,3,4,5]
+n = 5
+n = -n
 
-a = n[1:1]
-print(a)
+print(int(round(3.49,0)))
