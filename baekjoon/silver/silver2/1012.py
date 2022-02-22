@@ -9,9 +9,19 @@ for _ in range(t):
         y, x = map(int, stdin.readline().split())
         crop.append((x,y))
     crop = sorted(crop)                         # 순서대로 queue에 넣기 위해서 정렬
-    print(crop)
-    for i in range(len(crop)):
-        x, y = crop[i]
-        
-
-    print(len(queue))
+    count = 0
+    while crop:
+        if not queue:
+            x, y = crop.pop(0)
+            count += 1
+        else:
+            x, y = queue.pop(0)
+        if (x + 1, y) in crop:
+            queue.append(crop.pop(crop.index((x + 1, y))))
+        if (x, y + 1) in crop:
+            queue.append(crop.pop(crop.index((x, y + 1))))
+        if (x - 1, y) in crop:
+            queue.append(crop.pop(crop.index((x - 1, y))))
+        if (x, y - 1) in crop:
+            queue.append(crop.pop(crop.index((x, y - 1))))
+    print(count)
