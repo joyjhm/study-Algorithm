@@ -1,3 +1,7 @@
+/*
+    구현해 봤으니 이제 priority_queue<int, vector<int>, greater<>>를 사용해서 문제를 풀자.
+*/
+
 #include<iostream>
 #include<vector>
 
