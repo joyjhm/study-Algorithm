@@ -5,7 +5,7 @@
 using namespace std;
 
 int n;
-char rgb[100][100];
+string rgb[100];
 int dx[4] = {1, 0, -1, 0};
 int dy[4] = {0, 1, 0, -1};
 bool visited[100][100];
@@ -40,9 +40,7 @@ void bfs(int i, int j) {
 int main() {
     cin >> n;
     for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            cin >> rgb[i][j];
-        }
+        cin >> rgb[i];
     }
     int normal, abnormal;
     normal = abnormal = 0;
