@@ -1,4 +1,5 @@
 /*
+다른 풀이
 같은 벡터를 2개 만들고 하나의 벡터에서 중복을 없애고 오름차순 정렬한다.
 vector에서 중복을 없애는 방법: cv.erase(unique(cv.begin(), cv.end()), cv.end());
 
