@@ -5,6 +5,7 @@ vector에서 중복을 없애는 방법: cv.erase(unique(cv.begin(), cv.end()), 
 
 중복을 제외하고 정렬한 벡터에서 lower_bound(원하는 값 k 이상이 처음 나오는 위치를 찾는 과정)를 써서 좌표의 값을 구한다.
 lower_bound(v.begin(), v.end(), num) - v.begin();
+index = lower_bound( 정렬한 배열 포인터, 정렬한 배열 포인터의 끝 주소, 값) - 정렬한 배열 포인터
 */
 
 #include<iostream>
