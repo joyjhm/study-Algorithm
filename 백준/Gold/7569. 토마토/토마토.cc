@@ -1,3 +1,6 @@
+/*
+서로 다른 위치에서 한 번에 같이 시작해야 하는데 따로 시작해서 계속 오류가 났다.
+*/
 #include<iostream>
 #include<queue>
 using namespace std;
