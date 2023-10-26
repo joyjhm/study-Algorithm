@@ -1,3 +1,5 @@
+// priority_queue<int, vector<int>, compare> pq;로 우선순위 큐 자료구조에 compare 함수만 만들어서 추가해줘서 풀 수도 있다.
+
 #include<iostream>
 #include<cstdlib>
 using namespace std;
