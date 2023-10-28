@@ -1,3 +1,8 @@
+/*
+내가 푼 풀이: 스택에 있는 모든 노드들에서 탐색 할 수 있게 한다.
+다른 풀이: 일반적인 dfs 를 한 후 ㅗ 모양은 안 나오므로 한 노드에서 상하좌우 노드들 중 가장 작은 값을 뺀다.
+*/
+
 #include <iostream>
 #include <vector>
 using namespace std;
