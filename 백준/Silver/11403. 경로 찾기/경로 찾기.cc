@@ -1,3 +1,11 @@
+/*
+다른 방법 풀이
+1번 더 깔끔한 dfs
+각 노드에서 갈 수 있는 노드들을 dfs로 가고 한 노드가 끝나면 vistied를 초기화 한다.
+이런 식으로 모든 노드들을 반복
+2번 플로이드-워셜
+*/
+
 #include<iostream>
 #include<stack>
 using namespace std;
