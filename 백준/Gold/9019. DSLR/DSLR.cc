@@ -5,8 +5,6 @@ R = a / 10 + (a % 10) * 1000;
 
 #include<iostream>
 #include<queue>
-#include<vector>
-#include<cmath>
 #include<cstring>
 using namespace std;
 
@@ -53,24 +51,19 @@ string bfs(int a, int b) {
     memset(visited, 0, sizeof(visited));
     queue<pair<int, string>> q;
     q.push(make_pair(a, ""));
+    visited[a] = true;
     string str;
     while(!q.empty()) {
-        // int len = 10000;
+        int len = 10000;
         int n = q.front().first;
         string str = q.front().second;
 
         string ll;
         if(n == b) {
-            // if (str.length() < len){
-            //     answer = str;
-            //     len = str.length();
-            // }
+
             return str;
         }
         q.pop();
-        // if(len <= str.length()) {
-        //     continue;
-        // }
         int d_num = D(n);
         int s_num = S(n);
         int l_num = L(n);
