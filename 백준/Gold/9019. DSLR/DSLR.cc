@@ -1,3 +1,8 @@
+/*
+L = (a % 1000) * 10 + (a / 1000);
+R = a / 10 + (a % 10) * 1000;
+*/
+
 #include<iostream>
 #include<queue>
 #include<vector>
