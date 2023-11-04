@@ -1,3 +1,7 @@
+/*
+    dfs, bfs로 모두 풀 수 있지만 bfs로 풀면 이미 방문한 곳은 다시 중복 체크를 안해도 되어서 bfs로 푸는 것이 더 좋은 것 같다.
+*/
+
 #include<iostream>
 
 using namespace std;
