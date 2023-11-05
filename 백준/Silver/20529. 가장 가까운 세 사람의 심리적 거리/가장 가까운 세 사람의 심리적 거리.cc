@@ -1,3 +1,9 @@
+/*
+- 다른 풀이
+브루트포스 알고리즘 대신 비둘기집 원리를 이용하면 훨씬 빨리 풀 수 있다.
+32명 초과하면 같은 mbti를 가진 사람이 3명 이상 존재하므로 33명부터는 답이 무조건 0이 된다.
+*/
+
 #include<iostream>
 #include<algorithm>
 #include<cstring>
