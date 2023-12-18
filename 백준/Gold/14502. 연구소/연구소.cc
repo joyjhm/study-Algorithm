@@ -6,17 +6,17 @@ using namespace std;
 
 int n, m;
 int lab[8][8];
-bool visitedWall[8][8];
 bool visited[8][8];
 int dx[4] = {1,0,-1,0};
 int dy[4] = {0,1,0,-1};
 int extraWall[3][2];
-int cnt = 64;
+int result = 64;
 
-queue<pair<int, int>> basic_q;
+queue<pair<int, int>> virus;
 
 
 int bfs(queue<pair<int, int>> q) {
+
     int cnt = q.size();
     while(!q.empty()) {
         int ty = q.front().first;
@@ -39,39 +39,25 @@ int bfs(queue<pair<int, int>> q) {
     return cnt;
 }
 
-void chooseWall() {
-    lab[extraWall[0][0]][extraWall[0][1]] = 1;
-    lab[extraWall[1][0]][extraWall[1][1]] = 1;
-    lab[extraWall[2][0]][extraWall[2][1]] = 1;
-}
 
-void rollbackWall() {
-    lab[extraWall[0][0]][extraWall[0][1]] = 0;
-    lab[extraWall[1][0]][extraWall[1][1]] = 0;
-    lab[extraWall[2][0]][extraWall[2][1]] = 0;
-}
-
-void dfs(int depth, int idx) {
+void dfs(int depth) {
     if(depth == 3) {
-        chooseWall();
-        queue<pair<int, int>> test_queue(basic_q);
+        queue<pair<int, int>> test_queue(virus);
         memset(visited, false, sizeof(visited));
-        int result = bfs(test_queue);
-        cnt = min(result, cnt);
-        rollbackWall();
+        result = min(bfs(test_queue), result);
         return;
     }
 
-    for(int i = idx; i < n * m; i++) {
-        int y = i / m;
-        int x = i % m;
-        if(!visitedWall[y][x] && lab[y][x] == 0) {
-            visitedWall[y][x] = true;
-            extraWall[depth][0] = y;
-            extraWall[depth][1] = x;
-            dfs(depth + 1, i + 1);
-            visitedWall[y][x] = false;
-        }    
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < m; j++) {
+
+            if(lab[i][j] == 0) {
+                lab[i][j] = 1;
+                dfs(depth + 1);
+                lab[i][j] = 0;
+
+            }
+        }        
     }
     
 }
@@ -84,8 +70,7 @@ int main() {
         for (int j = 0; j < m; j++) {
             cin >> num;
             if(num == 2){
-                basic_q.push(make_pair(i,j));
-                visited[i][j] = true;
+                virus.push(make_pair(i,j));
             }
             else if(num == 1) {
                 wall_num++;
@@ -94,10 +79,8 @@ int main() {
         }
     }
 
-    dfs(0,0);
-    cout << n * m - (wall_num + 3 + cnt);
-
-    
+    dfs(0);
+    cout << n * m - (wall_num + 3 + result);
 }
 
 
