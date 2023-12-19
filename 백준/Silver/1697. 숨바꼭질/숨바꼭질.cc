@@ -2,7 +2,7 @@
 #include<queue>
 using namespace std;
 
-int grape[100001];
+int graph[100001];
 bool visited[100001];
 int n, k;
 int op[2] = {1, -1};
@@ -10,7 +10,7 @@ queue<int> q;
 
 void visitCheck(int dn) {
     if(dn <= 100000 && dn >= 0 && (!visited[dn])) {
-        grape[dn] = grape[n] + 1;
+        graph[dn] = graph[n] + 1;
         visited[dn] = true;
         q.push(dn);
     }
@@ -36,7 +36,7 @@ int main() {
         }
 
         if (visited[k]) {
-            cout << grape[k];
+            cout << graph[k];
             break;
         }
     }
