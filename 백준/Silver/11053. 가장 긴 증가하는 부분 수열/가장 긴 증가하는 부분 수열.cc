@@ -1,33 +1,33 @@
-#include <iostream>
-
+#include<iostream>
+#include<algorithm>
 using namespace std;
 
-int a[1001][2];
-
+int dp[1000];
+int num[1000];
+int n;
 int main() {
 
-    int n, number;
     cin >> n;
-    int result = 0;
-    int max = 0;
-    for (int i = 1; i <= n; i++) {
-        cin >> number;
-        a[i][0] = number;
+
+    for(int i = 0; i < n; i++) {
+        cin >> num[i];
     }
 
-    for (int i = 1; i <= n; i++) {
+    dp[0] = 1;
+    for(int i = 1; i < n; i++) {
+        int max_val = 1;
 
         for (int j = 0; j < i; j++) {
-            if (a[j][0] < a[i][0]) {
-                if (a[i][1] < a[j][1] + 1)
-                    a[i][1] = a[j][1] + 1;
+            if(num[j] < num[i]) {
+                max_val = max(dp[j] + 1, max_val);
             }
-
         }
-        if (max < a[i][1]) {
-            max = a[i][1];
-        }
+        dp[i] = max_val;
+    }
+    int result = 0;
+    for(int i = 0; i < n; i++) {
+        result = max(result, dp[i]);
     }
 
-    cout << max;
+    cout << result;
 }
