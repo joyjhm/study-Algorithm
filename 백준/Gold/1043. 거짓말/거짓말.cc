@@ -1,3 +1,5 @@
+// Union Find로 풀어보기
+
 #include<iostream>
 #include<vector>
 
