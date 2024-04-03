@@ -6,20 +6,18 @@ int n, m;
 queue<int> q[32001];
 bool visited[32001];
 
-
-void go(int num) {
+void check(int num) {
 
     if(visited[num]) {
         return;
     }
 
-    if(!q[num].empty()) {
-        while(!q[num].empty()) {
+    while(!q[num].empty()) {
             int next = q[num].front();
             q[num].pop();
-            go(next);
+            check(next);
         }
-    }
+    
     cout << num << " ";
     visited[num] = true;
 }
@@ -27,7 +25,6 @@ void go(int num) {
 int main() {
 
     cin >> n >> m;
-
 
     for (int i = 0; i < m; i++) {
         int a, b;
@@ -39,8 +36,6 @@ int main() {
         if(visited[i]) {
             continue;
         }
-
-        go(i);
-        
+        check(i);
     }
 }
