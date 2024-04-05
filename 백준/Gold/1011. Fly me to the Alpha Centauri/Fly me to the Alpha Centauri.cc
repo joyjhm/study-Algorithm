@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cmath>
 
 using namespace std;
 
@@ -14,17 +13,19 @@ int main() {
         int diff = y - x;
 
         int result = 0;
+        int idx = 1;
 
-        int tmp  = (int) sqrt(diff);
+        while(idx * 2 <= diff) {
+            diff -= idx * 2;
+            result += 2;
+            idx++;
+        }
 
-        if (diff == tmp * tmp) {
-            result = tmp * 2 - 1;
+        if (0 < diff && diff <= idx) {
+            result++;
         }
-        else if (diff <= tmp * tmp + tmp) {
-            result = tmp * 2;
-        }
-        else {
-            result = tmp * 2 + 1;
+        else if (idx < diff && diff < idx * 2) {
+            result += 2;
         }
 
         cout << result << '\n';
