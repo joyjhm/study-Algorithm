@@ -7,6 +7,32 @@ using namespace std;
 
 
 deque<char> wheel[5];
+queue<pair<int, int>> q;
+
+
+void right_wheel(int idx, int dir) {
+    while(idx <= 4) {
+        if (idx <= 4 && wheel[idx - 1].at(2) != wheel[idx].at(6)) {
+            dir = -dir;
+            q.push({idx, dir});
+        } else {
+            break;
+        }
+        idx++;
+    }
+}
+
+void left_wheel(int idx, int dir) {
+    while(idx > 0) {
+        if (idx > 0 && wheel[idx + 1].at(6) != wheel[idx].at(2)) {
+            dir = -dir;
+            q.push({idx, dir});
+        } else {
+            break;
+        }
+        idx--;
+    }
+}
 
 int main() {
 
@@ -26,31 +52,9 @@ int main() {
         int idx, dir;
         cin >> idx >> dir;
 
-        queue<pair<int, int>> q;
-        int right = (idx + 1);
-        int left = (idx - 1);
-
         q.push({idx, dir});
-        int right_dir = dir;
-        int left_dir = dir;
-        while(right <= 4) {
-            if (right <= 4 && wheel[right - 1].at(2) != wheel[right].at(6)) {
-                right_dir = -right_dir;
-                q.push({right, right_dir});
-            } else {
-                break;
-            }
-            right++;
-        }
-        while(left > 0) {
-            if (left > 0 && wheel[left + 1].at(6) != wheel[left].at(2)) {
-                left_dir = -left_dir;
-                q.push({left, left_dir});
-            } else {
-                break;
-            }
-            left--;
-        }
+        right_wheel(idx + 1, dir);
+        left_wheel(idx - 1, dir);
 
         while(!q.empty()) {
             idx = q.front().first;
