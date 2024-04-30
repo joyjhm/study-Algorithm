@@ -9,7 +9,6 @@ bool visited[100][100];
 int dy[4] = {0,1,0,-1};
 int dx[4] = {1,0,-1,0};
 int n;
-int cnt[100][100];
 vector<vector<pair<int,int>>> v;
 
 
@@ -18,7 +17,7 @@ void bfs(int y, int x) {
     queue<pair<int,int>> q;
     vector<pair<int,int>> tmp;
     q.push({y, x});
-    bool isMove[100][100] = {false, };
+
     while(!q.empty()) {
         int ty = q.front().first;
         int tx = q.front().second;
