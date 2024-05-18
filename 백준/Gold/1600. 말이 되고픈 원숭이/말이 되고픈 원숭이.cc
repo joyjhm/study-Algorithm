@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+#include <cstring>
 using namespace std;
 
 struct Point {
@@ -10,7 +11,7 @@ struct Point {
 };
 
 int map[200][200];
-bool visited[200][200][31];
+int visited[200][200];
 int dy[4] = {0,1,0,-1};
 int dx[4] = {1,0,-1,0};
 int horse_y[8] = {-2, -1, 1, 2, 2, 1, -1, -2};
@@ -22,8 +23,7 @@ int k, w, h;
 void bfs() {
     queue<Point> q;
     q.push({0, 0, k, 0});
-    visited[0][0][0] = true;
-    visited[0][0][1] = true;
+    visited[0][0] = 31;
     while(!q.empty()) {
 
         int y = q.front().y;
@@ -44,8 +44,8 @@ void bfs() {
             if (yy >= h || xx >= w || yy < 0 || xx < 0)
                 continue;
             
-            if(map[yy][xx] == 0 && !visited[yy][xx][kk]) {
-                visited[yy][xx][kk] = true;
+            if(map[yy][xx] == 0 && (visited[yy][xx] == -1 || visited[yy][xx] < kk)) {
+                visited[yy][xx] = kk;
                 q.push({yy, xx, kk, cnt + 1});
             }
         }
@@ -59,8 +59,8 @@ void bfs() {
                 if (yy >= h || xx >= w || yy < 0 || xx < 0)
                     continue;
 
-                if(map[yy][xx] == 0 && !visited[yy][xx][kk - 1]) {
-                    visited[yy][xx][kk - 1] = true;
+                if(map[yy][xx] == 0 && (visited[yy][xx] == -1 || visited[yy][xx] < kk - 1)) {
+                    visited[yy][xx] = kk - 1;
                     q.push({yy, xx, kk - 1,  cnt + 1});
                 }
             }
@@ -80,6 +80,7 @@ int main() {
         }
     }
 
+    memset(visited, -1, sizeof(visited));
     bfs();
 
     cout << result;
