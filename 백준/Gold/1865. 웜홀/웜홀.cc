@@ -3,7 +3,7 @@
 #include<queue>
 #include<algorithm>
 #include <climits>
-#define INF INT_MAX
+#define INF 1000000000
 using namespace std;
 
 struct Edge {
@@ -17,11 +17,10 @@ int tc;
 int n, m, w;
 bool isPossible;
 
-bool bfs(int node, vector<Edge>& road, vector<bool>& visited) {
+bool bfs(vector<Edge>& road) {
 
     vector<int> distance(n + 1, INF);
-    distance[node] = 0;
-    visited[node] = true;
+
     for (int i = 0; i < n - 1; i++) {
 
         for (int j = 0; j < road.size(); j++) {
@@ -29,11 +28,8 @@ bool bfs(int node, vector<Edge>& road, vector<bool>& visited) {
             int next = road[j].dest;
             int nextCost = road[j].cost;
 
-            if(distance[cur] == INF) 
-                continue;
 
             if(distance[cur] + nextCost < distance[next]) {
-                visited[next] = true;
                 distance[next] = distance[cur] + nextCost;
             }
         }
@@ -43,9 +39,6 @@ bool bfs(int node, vector<Edge>& road, vector<bool>& visited) {
         int cur = road[i].start;
         int next = road[i].dest;
         int nextCost = road[i].cost;
-
-        if(distance[cur] == INF) 
-            continue;
 
         if(distance[cur] + nextCost < distance[next]) {
             return true;
@@ -81,17 +74,8 @@ int main() {
             road.push_back({s, e, -t});
         }
 
-        isPossible = true;
 
-        for (int i = 1; i <= n; i++) {
-            if(!visited[i]) {
-                isPossible = bfs(i, road, visited);
-                if(isPossible) {
-                    break;
-                }
-            }
-        }
-
+        isPossible = bfs(road);
 
         if(isPossible) {
             cout << "YES" << '\n';
