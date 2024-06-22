@@ -4,41 +4,19 @@ using namespace std;
 
 
 int cur = 0;
-int idx = 1;
 int result = 1;
 
+int merge(int &idx, int move) {
 
-int right_merge(bool isRight, int move) {
-
-    if(isRight) {
-        if(idx > move) {
-            idx = idx - move;
-
-        }
-        else if(idx <= move && idx != 0) {
-            result = cur + idx;
-            idx = 0;
-        }
-    } 
+    if(idx > move) {
+        idx = idx - move;
+    }
+    else if(idx <= move && idx != 0) {
+        result = cur + idx;
+        idx = 0;
+    }
 
     return move;
-    
-}
-
-int left_merge(bool isRight, int move) {
-
-    if(!isRight) {
-        if(idx > move) {
-            idx = idx - move;
-        }
-        else if(idx <= move && idx != 0) {
-            result = cur + idx;
-            idx = 0;
-        }
-    } 
-    return move;
-
-
 }
 
 
@@ -55,17 +33,14 @@ int main() {
 
     for (int i = 0; i < n; i++) {
 
-        bool isRight;
-        int right = 14;
-        int left = 13;
+        int right_idx, left_idx;    
+        left_idx = right_idx = 0;
 
-        idx = result;
+        if (result > 13) {
+            right_idx = result - 13;
 
-        if (idx > 13) {
-            idx -= 13;
-            isRight = true;
         } else {
-            isRight = false;
+            left_idx = result;
         }
         int cnt = 0;
         while (cur != 27) {
@@ -73,9 +48,9 @@ int main() {
             cin >> tmp;
 
             if(cnt % 2 == 0) {
-                cur += right_merge(isRight, tmp);
+                cur += merge(right_idx, tmp);
             } else {
-                cur += left_merge(isRight, tmp);
+                cur += merge(left_idx, tmp);
 
             }
             cnt++;
