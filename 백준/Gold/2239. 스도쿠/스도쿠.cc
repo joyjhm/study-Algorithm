@@ -36,37 +36,33 @@ void solve(int y, int x) {
         return;
     }
 
-    for (int i = y; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            if (sdoku[i][j] == '0') {
-                for (int k = 1; k <= 9; k++) {
-                    if(check(i, j, k)) {
-                        sdoku[i][j] = '0' + k;
-                        if(j + 1 == 9) {
-                            solve(i + 1, j);
-                        }
-                        else {
-                            solve(i, j + 1);
-                        }
-                        sdoku[i][j] -= k;
-                    }
-                }
-                return;
-            } 
-        }
+    if(x == 9) {
+        solve(y + 1, 0);
+        return;
     }
 
-    if(!finish) {
+    if (y == 9) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                    cout << sdoku[i][j];
+                cout << sdoku[i][j];
             }
             cout << '\n';
         }
         finish = true;
     }
 
-
+    if (sdoku[y][x] == '0') {
+        for (int k = 1; k <= 9; k++) {
+            if(check(y, x, k)) {
+                sdoku[y][x] = '0' + k;
+                solve(y, x + 1);
+                sdoku[y][x] -= k;
+            }
+        }
+        return;
+    } else {
+        solve(y, x + 1);
+    }
 }
 
 int main() {
