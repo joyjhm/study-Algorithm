@@ -1,9 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#define INF 10000000
 using namespace std;
 
-int dp[1001][3][3];
 int arr[1001][3];
 
 int main() {
@@ -17,47 +17,37 @@ int main() {
         }
     }
 
+    int result = 10000000;
+
     for (int j = 0; j < 3; j++) {
-        for (int i = 1; i <= n - 1; i++) {
-            if(i == 1) {
-                dp[1][j][j] = arr[i][j];
-                dp[1][(j + 1) % 3][j] = 10000000;
-                dp[1][(j + 2) % 3][j] = 10000000;
-            }
-            else if (i == 2) {
-                for (int k = 0; k < 3; k++) {
-                    if(k == j) {
-                        dp[2][k][j] = 10000000;
-                    }
-                    else {
-                        dp[2][k][j] = arr[1][j] + arr[2][k];
-                    }
-                }
+        int dp[1001][3];
+
+        for (int i = 0; i < 3; i++) {
+            if(j == i) {
+                dp[1][i] = arr[1][i];
             }
             else {
-                dp[i][0][j] = arr[i][0] + min(dp[i - 1][1][j], dp[i - 1][2][j]);
-                dp[i][1][j] = arr[i][1] + min(dp[i - 1][0][j], dp[i - 1][2][j]);
-                dp[i][2][j] = arr[i][2] + min(dp[i - 1][0][j], dp[i - 1][1][j]);
-            }  
-        }
-
-        for (int k = 0; k < 3; k++) {
-            if(k == j) {
-                dp[n][k][j] = min(arr[n][(k + 1) % 3], arr[n][(k + 2) % 3]) + dp[n - 1][k][j];
-            } else {
-                dp[n][k][j] = arr[n][3 - j - k] + dp[n - 1][k][j];
+                dp[1][i] = INF;
             }
+        }
 
+        for (int i = 2; i <= n; i++) {
+
+            dp[i][0] = arr[i][0] + min(dp[i - 1][1], dp[i - 1][2]);
+            dp[i][1] = arr[i][1] + min(dp[i - 1][0], dp[i - 1][2]);
+            dp[i][2] = arr[i][2] + min(dp[i - 1][0], dp[i - 1][1]);
+            
+        }
+
+        for (int i = 0; i < 3; i++) {
+            if(i == j) {
+                continue;
+            } else {
+                result = min(result, dp[n][i]);
+            }
         }
     }
-
-    int result = 10000000;
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            result = min (result, dp[n][i][j]);
-        }
-    }
-
 
     cout << result;
+
 }
