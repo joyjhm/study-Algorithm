@@ -33,32 +33,19 @@ bool bfs(int y, int x) {
                 continue;
             }
 
-            if(!isPeak) {
-                if(arr[yy][xx] == arr[ty][tx] && !visited[ty][tx]) {
-                    visited[ty][tx] = true;
-                    q.push({ty, tx});
-                }   
-
+            if(arr[yy][xx] == arr[ty][tx] && !visited[ty][tx]) {
+                visited[ty][tx] = true;
+                q.push({ty, tx});
             }
-            else {
-
-                if(arr[yy][xx] == arr[ty][tx] && !visited[ty][tx]) {
-                    visited[ty][tx] = true;
-                    q.push({ty, tx});
-                }
-                else if(arr[yy][xx] < arr[ty][tx]) {
-                    isPeak = false;
-                }
-
+            else if(arr[yy][xx] < arr[ty][tx]) {
+                isPeak = false;
             }
-
 
         }
     }
 
     return isPeak;
 }
-
 
 int main() {
 
