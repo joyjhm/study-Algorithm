@@ -10,16 +10,19 @@ int n;
 stack<int> s;
 queue<int> q;
 int result;
+int dirStart[4];
 
-void right(int arr[][20]) {
+void right_left(int arr[][20], int dir, int start) {
 
     for (int i = 0; i < n; i++) {
 
-        int idx = n - 1;
+        int idx = dirStart[start];
+        int j = dirStart[start];
 
-        for (int j = n - 1; j >= 0; j--) {
+        while (j >= 0 && j < n) {
 
             if(!arr[i][j]) {
+                j += dir;
                 continue;
             }
 
@@ -29,40 +32,46 @@ void right(int arr[][20]) {
             else if(s.top() == arr[i][j]) {
                 arr[i][idx] = arr[i][j] * 2;
                 s.pop();
-                idx--;
+                idx += dir;
             }
             else {
                 while(!s.empty()) {
                     arr[i][idx] = s.top();
                     s.pop();
-                    idx--;
+                    idx += dir;
+
                 }
                 s.push(arr[i][j]);
             }
+
+            j += dir;
         }
 
         while(!s.empty()) {
             arr[i][idx] = s.top();
             s.pop();
-            idx--;
+            idx += dir;
+
         }
 
-        while(idx >= 0) {
+        while(idx >= 0 && idx < n) {
             arr[i][idx] = 0;
-            idx--;
+            idx += dir;
         }
     }
 
 }
 
-void down(int arr[][20]) {
+void down_up(int arr[][20], int dir, int start) {
 
     for (int i = 0; i < n; i++) {
 
-        int idx = n - 1;
+        int idx = dirStart[start];
+        int j = dirStart[start];
 
-        for (int j = n - 1; j >= 0; j--) {
+        while (j >= 0 && j < n) {
             if(!arr[j][i]) {
+                j += dir;
                 continue;
             }
 
@@ -72,133 +81,47 @@ void down(int arr[][20]) {
             else if(s.top() == arr[j][i]) {
                 arr[idx][i] = arr[j][i] * 2;
                 s.pop();
-                idx--;
+                idx += dir;
             }
             else {
                 while(!s.empty()) {
                     arr[idx][i] = s.top();
                     s.pop();
-                    idx--;
+                    idx += dir;
                 }
                 s.push(arr[j][i]);
             }
+
+            j += dir;
         }
 
         while(!s.empty()) {
             arr[idx][i] = s.top();
             s.pop();
-            idx--;
+            idx += dir;
         }
 
-        while(idx >= 0) {
+        while(idx >= 0 && idx < n) {
             arr[idx][i] = 0;
-            idx--;
+            idx += dir;
         }
 
     }
-}
-
-void left(int arr[][20]) {
-
-    for (int i = 0; i < n; i++) {
-
-        int idx = 0;
-
-        for (int j = 0; j < n; j++) {
-            if(!arr[i][j]) {
-                continue;
-            }
-
-            if(s.empty()) {
-                s.push(arr[i][j]);
-            }
-            else if(s.top() == arr[i][j]) {
-                arr[i][idx] = arr[i][j] * 2;
-                s.pop();
-                idx++;
-            }
-            else {
-                while(!s.empty()) {
-                    arr[i][idx] = s.top();
-                    s.pop();
-                    idx++;
-                }
-                s.push(arr[i][j]);
-            }
-        }
-
-        while(!s.empty()) {
-            arr[i][idx] = s.top();
-            s.pop();
-            idx++;
-        }
-
-        while(idx < n) {
-            arr[i][idx] = 0;
-            idx++;
-        }
-
-    }
-
-}
-
-void up(int arr[][20]) {
-
-    for (int i = 0; i < n; i++) {
-
-        int idx = 0;
-
-        for (int j = 0; j < n; j++) {
-            if(!arr[j][i]) {
-                continue;
-            }
-
-            if(s.empty()) {
-                s.push(arr[j][i]);
-            }
-            else if(s.top() == arr[j][i]) {
-                arr[idx][i] = arr[j][i] * 2;
-                s.pop();
-                idx++;
-            }
-            else {
-                while(!s.empty()) {
-                    arr[idx][i] = s.top();
-                    s.pop();
-                    idx++;
-                }
-                s.push(arr[j][i]);
-            }
-        }
-
-        while(!s.empty()) {
-            arr[idx][i] = s.top();
-            s.pop();
-            idx++;
-        }
-
-        while(idx < n) {
-            arr[idx][i] = 0;
-            idx++;
-        }
-
-    }
-
 }
 
 void move(int dir, int arr[][20]) {
 
     if(dir == 0) {
-        right(arr);
+        right_left(arr, -1, 0);
     }
     else if(dir == 1) {
-        down(arr);
+        down_up(arr, -1, 1);
     }
     else if(dir == 2) {
-        left(arr);
+        right_left(arr, 1, 2);
     }
     else {
-        up(arr);
+        down_up(arr, 1, 3);
     }
 }
 
@@ -236,6 +159,12 @@ int main() {
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             cin >> board[i][j];
+        }
+    }
+
+    for (int i = 0; i < 4; i++) {
+        if (i < 2) {
+            dirStart[i] = n - 1;
         }
     }
 
