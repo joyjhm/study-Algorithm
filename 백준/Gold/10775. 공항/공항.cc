@@ -28,9 +28,8 @@ int main() {
         cin >> plane_num;
 
         auto it = gate.lower_bound(-plane_num);
-        if (isEnd || it == gate.end()) {
-            isEnd = true;
-            continue;
+        if (it == gate.end()) {
+            break;
         }
 
         gate.erase(it);
