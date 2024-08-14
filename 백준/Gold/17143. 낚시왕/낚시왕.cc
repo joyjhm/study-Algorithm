@@ -8,14 +8,11 @@ struct Shark {
     int speed;
     int dir;
     int size;
-    int moveCnt;
     bool isPresent = true;
 };
 
 int arr[101][101];
 int move_arr[101][101];
-int dy[5] = {0,1,-1,0,0};
-int dx[5] = {0,0,0,1,-1};
 vector<Shark> shark_list;
 int result = 0;
 
@@ -24,12 +21,12 @@ int main() {
     int row, col, m;
     cin >> row >> col >> m;
 
-    shark_list.push_back({0,0,0,0,0,0, false});
+    shark_list.push_back({0,0,0,0,0, false});
 
     for (int i = 1; i <= m; i++) {
         int r, c, s, d, z;
         cin >> r >> c >> s >> d >> z;
-        shark_list.push_back({r,c,s,d,z, 0, true});
+        shark_list.push_back({r,c,s,d,z, true});
         arr[r][c] = i;
     }
 
@@ -53,10 +50,8 @@ int main() {
             int y = shark_list[j].y;
             int x = shark_list[j].x;
 
-
             arr[y][x] = 0;                
             
-
             int speed = shark_list[j].speed;
             int dir = shark_list[j].dir;
 
@@ -106,9 +101,6 @@ int main() {
 
             }
 
-
-            
-            shark_list[j].moveCnt++;
 
             if(move_arr[y][x]) {
                 int idx = move_arr[y][x];
