@@ -10,103 +10,25 @@ struct Status {
 };
 
 char board[10][10];
+int dy[4] = {0,1,0,-1};
+int dx[4] = {1,0,-1,0};
 int n, m;
+pair<int,int> hole;
 queue<Status> q;
 int result = -1;
 
 
-int move_ball(bool isCol, pair<int,int>& ball, pair<int,int>& other, int op, char color) {
-    int tmp = isCol ? ball.second : ball.first;
-    if(isCol) {
-        while(board[ball.first][tmp + op] != '#' && !(tmp + op == other.second && ball.first == other.first) || board[ball.first][tmp + op] == 'O') {
-            ball.second = tmp + op;
-            if(board[ball.first][tmp + op] == 'O') {
-                if(color == 'B') {
-                    return -1;
-                }
-                else {
-                    return 1;
-                }
-            }
-            tmp += op;
-        }
-    } else {
-        while(board[tmp + op][ball.second] != '#' && !(tmp + op == other.first && ball.second == other.second) || board[tmp + op][ball.second] == 'O') {
-            ball.first = tmp + op;
-            if(board[tmp + op][ball.second] == 'O') {
-                if(color == 'B') {
-                    return -1;
-                }
-                else {
-                    return 1;
-                }
-            }
-            tmp += op;
-        }
-    
-    }    
+void move_ball(pair<int,int> &ball, int& distance, int idx) {
 
-    return 0;
+    while(board[ball.first + dy[idx]][ball.second + dx[idx]] != '#' 
+    &&board[ball.first][ball.second] != 'O') {
+        distance++;
+        ball.first += dy[idx];
+        ball.second += dx[idx];
+    }
+
 }
 
- 
-int move_board(int idx, pair<int,int>& red, pair<int,int>& blue) {
-
-    int tmp_red;
-    int tmp_blue;
-
-    if(idx == 0) {
-        if(blue.second > red.second) {
-            tmp_blue = move_ball(true, blue, red, 1, 'B');
-            tmp_red = move_ball(true, red, blue, 1, 'R');
-        }
-        else {
-            tmp_red = move_ball(true, red, blue, 1, 'R');
-            tmp_blue = move_ball(true, blue, red, 1, 'B');
-        }
-        
-    }
-    else if(idx == 1) {
-        if(blue.first < red.first) {
-            tmp_red = move_ball(false, red, blue, 1, 'R');
-            tmp_blue = move_ball(false, blue, red, 1, 'B');
-        }
-        else {
-            tmp_blue = move_ball(false, blue, red, 1, 'B');
-            tmp_red = move_ball(false, red, blue, 1, 'R');
-        }
-    }
-    else if(idx == 2) {
-        if(blue.second < red.second) {
-            tmp_blue = move_ball(true, blue, red, -1, 'B');
-            tmp_red = move_ball(true, red, blue, -1, 'R');
-        }
-        else {
-            tmp_red = move_ball(true, red, blue, -1, 'R');
-            tmp_blue = move_ball(true, blue, red, -1, 'B');
-        }
-    }
-    else if(idx == 3) {
-        if(blue.first > red.first) {
-            tmp_red = move_ball(false, red, blue, -1, 'R');
-            tmp_blue = move_ball(false, blue, red, -1, 'B');
-        }
-        else {
-            tmp_blue = move_ball(false, blue, red, -1, 'B');
-            tmp_red = move_ball(false, red, blue, -1, 'R');
-        }
-    }
-
-    if(tmp_blue == -1) {
-        return tmp_blue;
-    }
-
-    if(tmp_red == 1) {
-        return tmp_red;
-    }
-
-   return 0;
-}
 
 void bfs() {
 
@@ -116,7 +38,7 @@ void bfs() {
         int cnt = q.front().cnt;
         q.pop();
 
-        if(cnt + 1 > 10) {
+        if(cnt >= 10) {
             return;
         }
 
@@ -124,19 +46,36 @@ void bfs() {
             pair<int,int> tmp_red(red.first, red.second);
             pair<int,int> tmp_blue(blue.first, blue.second);
 
-            int type = move_board(i, tmp_red, tmp_blue);
+            int distance_red = 0;
+            int distance_blue = 0;
+            move_ball(tmp_red, distance_red, i);
+            move_ball(tmp_blue, distance_blue, i);
 
-            if(red.first == tmp_red.first && red.second == tmp_red.second && blue.first == tmp_blue.first && blue.second == tmp_blue.second) {
-               continue; 
+            if(tmp_blue.first == hole.first && tmp_blue.second == hole.second) {
+                continue;
             }
 
-            if(type == 0) {
-                q.push({tmp_red, tmp_blue, cnt + 1});
-            }
-            else if(type == 1) {
+            if(tmp_red.first == hole.first && tmp_red.second == hole.second) {
                 result = cnt + 1;
                 return;
             }
+
+            if(tmp_red.first == tmp_blue.first && tmp_red.second == tmp_blue.second) {
+                if(distance_red > distance_blue) {
+                    tmp_red.first -= dy[i];
+                    tmp_red.second -= dx[i];
+                } else {
+                    tmp_blue.first -= dy[i];
+                    tmp_blue.second -= dx[i];
+                }
+            }
+
+            if(red.first == tmp_red.first && red.second == tmp_red.second
+             && blue.first == tmp_blue.first && blue.second == tmp_blue.second) {
+               continue; 
+            }
+
+            q.push({tmp_red, tmp_blue, cnt + 1});
         }
     }
 }
@@ -161,6 +100,10 @@ int main() {
                 blue.first = i;
                 blue.second = j;
                 board[i][j] = '.';
+            }
+            if(board[i][j] == 'O') {
+                hole.first = i;
+                hole.second = j;
             }
         }
     }
