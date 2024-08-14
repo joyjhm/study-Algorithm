@@ -12,8 +12,6 @@ struct Status {
 char board[10][10];
 int n, m;
 queue<Status> q;
-int dy[4] = {0,1,0,-1};
-int dx[4] = {1,0,-1,0};
 int result = -1;
 
 
@@ -21,8 +19,8 @@ int move_ball(bool isCol, pair<int,int>& ball, pair<int,int>& other, int op, cha
     int tmp = isCol ? ball.second : ball.first;
     if(isCol) {
         while(board[ball.first][tmp + op] != '#' && !(tmp + op == other.second && ball.first == other.first) || board[ball.first][tmp + op] == 'O') {
+            ball.second = tmp + op;
             if(board[ball.first][tmp + op] == 'O') {
-                ball.second = tmp + op;
                 if(color == 'B') {
                     return -1;
                 }
@@ -32,11 +30,10 @@ int move_ball(bool isCol, pair<int,int>& ball, pair<int,int>& other, int op, cha
             }
             tmp += op;
         }
-        ball.second = tmp;
     } else {
         while(board[tmp + op][ball.second] != '#' && !(tmp + op == other.first && ball.second == other.second) || board[tmp + op][ball.second] == 'O') {
+            ball.first = tmp + op;
             if(board[tmp + op][ball.second] == 'O') {
-                ball.first = tmp + op;
                 if(color == 'B') {
                     return -1;
                 }
@@ -46,7 +43,6 @@ int move_ball(bool isCol, pair<int,int>& ball, pair<int,int>& other, int op, cha
             }
             tmp += op;
         }
-        ball.first = tmp;
     
     }    
 
@@ -63,7 +59,6 @@ int move_board(int idx, pair<int,int>& red, pair<int,int>& blue) {
         if(blue.second > red.second) {
             tmp_blue = move_ball(true, blue, red, 1, 'B');
             tmp_red = move_ball(true, red, blue, 1, 'R');
-
         }
         else {
             tmp_red = move_ball(true, red, blue, 1, 'R');
@@ -122,11 +117,10 @@ void bfs() {
         q.pop();
 
         if(cnt + 1 > 10) {
-            result = -1;
-            break;
+            return;
         }
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {   // R, D, L, U
             pair<int,int> tmp_red(red.first, red.second);
             pair<int,int> tmp_blue(blue.first, blue.second);
 
