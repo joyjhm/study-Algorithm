@@ -4,8 +4,8 @@
 using namespace std;
 
 
-long long dp[5000];
-long long mod = 1000000;
+int dp[5000];
+int mod = 1000000;
 
 int main() {
 
@@ -28,7 +28,7 @@ int main() {
             cout << 0;
             return 0;
         }
-        else if ((str[i - 1] == '2' && str[i] <= '6' ) || (str[i - 1] == '1')) {
+        else if ((str[i - 1] == '2' && str[i] <= '6') || str[i - 1] == '1') {
             dp[i + 1] = (dp[i] + dp[i - 1]) % mod;
         }
         else {
