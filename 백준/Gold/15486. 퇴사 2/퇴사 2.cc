@@ -3,7 +3,6 @@
 #include <algorithm>
 using namespace std;
 
-int result = 0;
 int dp[1500001];
 vector<pair<int,int>> v(1500001);
 
@@ -20,13 +19,13 @@ int main() {
 
     
     for (int i = 0; i < n; i++) {
-        int day1 = i + v[i].first;
-        int day2 = i + 1;
+        int work_next_day = i + v[i].first;
+        int not_work_next_day = i + 1;
 
-        if(day1 <= n) {
-            dp[day1] = max(dp[day1], dp[i] + v[i].second);
+        if(work_next_day <= n) {
+            dp[work_next_day] = max(dp[work_next_day], dp[i] + v[i].second);
         }
-        dp[i + 1] = max(dp[i], dp[i + 1]);
+        dp[not_work_next_day] = max(dp[i], dp[not_work_next_day]);
 
     }
 
