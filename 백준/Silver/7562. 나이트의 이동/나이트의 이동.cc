@@ -31,7 +31,7 @@ int bfs() {
             if(yy >= l || yy < 0 || xx >= l || xx < 0)
                 continue;
 
-            if(board[yy][xx] < board[y][x] + 1) {
+            if(!board[yy][xx] && board[yy][xx] < board[y][x] + 1) {
                 q.push({yy, xx});
                 board[yy][xx] = board[y][x] + 1;
             }
