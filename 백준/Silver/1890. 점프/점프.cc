@@ -1,37 +1,44 @@
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 int n;
 int board[100][100];
 long long dp[100][100];
 
+long long dfs(int y, int x) {
+    
+    if (y >= n || x >= n) 
+        return 0;
+    if (y == n - 1 && x == n - 1)
+         return 1;
+
+    if (dp[y][x] != -1) {
+        return dp[y][x]; 
+    }
+
+    int jump = board[y][x];
+
+    if (jump == 0) {
+        return 0;
+    }
+
+    dp[y][x] = dfs(y + jump, x) + dfs(y, x + jump);
+
+    return dp[y][x];
+}
 
 int main() {
-
     cin >> n;
+
+
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             cin >> board[i][j];
+            dp[i][j] = -1;
         }
     }
 
-    dp[0][0] = 1;
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            if (dp[i][j] == 0 || board[i][j] == 0) 
-                continue;
-
-            int jump = board[i][j];
-            if (i + jump < n) {
-                dp[i + jump][j] += dp[i][j];
-            }
-            if (j + jump < n) {
-                dp[i][j + jump] += dp[i][j];
-            }
-        }
-    }
-    cout << dp[n - 1][n - 1];
-
+    cout << dfs(0, 0) << endl;
 
 }
