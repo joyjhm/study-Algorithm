@@ -7,13 +7,13 @@ int board[100][100];
 long long dp[100][100];
 
 long long dfs(int y, int x) {
-    
+
     if (y >= n || x >= n) 
         return 0;
     if (y == n - 1 && x == n - 1)
          return 1;
 
-    if (dp[y][x] != -1) {
+    if (dp[y][x]) {
         return dp[y][x]; 
     }
 
@@ -35,7 +35,6 @@ int main() {
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             cin >> board[i][j];
-            dp[i][j] = -1;
         }
     }
 
