@@ -5,27 +5,17 @@ vector<int> v;
 int lesson[100001];
 int n, m;
 
-bool cal(int val) {
+bool isValidBluRaySize(int val) {
     int sum = 0;
     int cnt = 1;
     for (int i = 0; i < n; i++) {
-        if(lesson[i] > val) {
-            return false;
-        }
-        else if (sum + lesson[i] <= val) {
-            sum += lesson[i];
-        }
-        else {
+        if (sum + lesson[i] > val) {
             cnt++;
-            sum = lesson[i];
+            sum = 0;
         }
+        sum += lesson[i];
     }
-
-    if(cnt > m) {
-        return false;
-    }
-
-    return true;
+    return cnt <= m;
 }
 
 int main() {
@@ -36,13 +26,14 @@ int main() {
     for (int i = 0; i < n; i++) {
         cin >> lesson[i];
         end += lesson[i];
+        start = max(start, lesson[i]);
     }
 
-    int result = 1000000000;
+    int result = end;
 
     while(start <= end) {
         int mid = (start + end) / 2;
-        if (cal(mid)) {
+        if (isValidBluRaySize(mid)) {
             result = min(result, mid);
             end = mid - 1;
         }
