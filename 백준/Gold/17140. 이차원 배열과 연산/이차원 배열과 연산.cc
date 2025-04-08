@@ -100,13 +100,11 @@ vector<vector<int>> setCol(int col) {
 }
 
 vector<vector<int>> transform(vector<vector<int>>& old) {
-    vector<vector<int>> new_one(total_row, vector<int>(total_col, 0));
+    vector<vector<int>> new_one(total_row, vector<int>(total_col));
 
     for (int i = 0; i < old.size(); i++) {
         for (int j = 0; j < old[i].size(); j++) {
-            if (j < total_row && i < total_col) {
-                new_one[j][i] = old[i][j];
-            }
+            new_one[j][i] = old[i][j];
         }
     }
 
