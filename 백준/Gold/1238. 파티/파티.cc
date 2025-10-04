@@ -1,5 +1,3 @@
-// 다익스트라 2번만 사용해서 풀어보기
-
 #include<iostream>
 #include<vector>
 #include<algorithm>
